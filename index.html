@@ -1,12 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project 2</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nobile:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
+        rel="stylesheet">
+    <title>Hello Fridge</title>
 </head>
+
 <body>
+    <header>
+        <h1 id="title">Hello Fridge</h1>
+        <div class="header-menu">
+            <button id="add-button">Add Item</button>
+        </div>
+    </header>
+    <main>
+        <section id="display-content">
+            <span id="fridge-contents"></span>
+        </section>
+    </main>
+    <footer>
+        Hello Fridge &copy; 2021
+    </footer>
     
+    <div class="modal" id="modal-dialog">
+        <section>
+            <h2>Item</h2>
+            <input type="text" id="edit-item-text">
+            <span id="edit-item"></span>
+        </section>
+        <section>
+            <h2>Amount</h2>
+            <input type="text" id="edit-amount-text">
+            <span id="edit-amount"></span>
+        </section>
+        <section>
+            <h2>Unit</h2>
+            <select list="units" id="edit-unit-text">
+                <datalist id="unit-options">
+                    <option value="oz">oz</option>
+                    <option value="lb">lb</option>
+                    <option value="gal">gal</option>
+                    <option value="units">units</option>
+                </datalist>
+            </select>
+            <span id="edit-unit"></span>
+        </section>
+        <section>
+            <h2>Expiration</h2>
+            <input type="date" id="edit-exp-date-text">
+            <span id="edit-exp-date"></span>
+        </section>
+        <footer>
+            <button id="save-button">Save</button>
+            <button id="clear-button">Clear</button>
+            <button id="cancel-button">Cancel</button>
+        </footer>
+    </div>
+    <div id="modal-backdrop"></div>
+    <script src="js/scripts.js"></script>
 </body>
 </html>
