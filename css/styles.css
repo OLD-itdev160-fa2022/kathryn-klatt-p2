@@ -25,7 +25,8 @@ header .header-menu{
 }
 
 #title {
-    letter-spacing: 0.1em;
+    color: darkblue;
+    margin-left: 9%;
 }
 
 button{
@@ -39,22 +40,29 @@ h2{
 }
 
 main{
+    margin-left: 10%;
     flex:1;
 }
 
 main #display-content{
-    padding: 2% 0 0 5%;
+    padding-right: 5%;
 }
 
 #display-content > p{
-    margin: 1%;
+    margin: .2em;
     padding: .5% .5% .5% 5%;
-    width: 90%;
-    border: 2px solid blueviolet;
+    width: 85%;
+    background-color: rgb(186, 211, 236);
+    border: 2px solid rgba(1, 1, 136, 0.37);
+}
+
+#display-content > p:hover{
+    background-color: rgba(253, 253, 154, 0.5);
+    border-color: aliceblue;
 }
 
 .date {
-    padding: 0% 10%;
+     padding: 0% 10% 0;
 }
 
 .unit {
@@ -67,6 +75,8 @@ main #display-content{
 .edit{
     margin-right: 3%;
 }
+
+#save
 
 #modal-backdrop{
     display: none;
@@ -107,6 +117,11 @@ main #display-content{
 
 footer{
     flex: 1;
+    padding-top: 5%;
     color:gray;
     margin: auto;
+}
+
+footer > button{
+    margin-right: 2%;
 }
