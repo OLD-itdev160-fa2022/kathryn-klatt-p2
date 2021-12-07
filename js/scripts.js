@@ -76,22 +76,23 @@ function addFridgeElement(newFridgeItem){
   var amountEl = document.createElement('span');
   var unitEl = document.createElement('span');
   var dateEl = document.createElement('span');
-  var editBtn = document.createElement('button');
-  var deleteBtn = document.createElement('button');
+//   var editBtn = document.createElement('button');
+//   var deleteBtn = document.createElement('button');
   var pEl = document.createElement('p');
 
   itemEl.setAttribute("class", "item");
   amountEl.setAttribute("class", "amount");
   unitEl.setAttribute("class", "unit");
   dateEl.setAttribute("class", "date");
-  editBtn.setAttribute("class", "edit");
-  editBtn.setAttribute("id", newFridgeItem.id);
-  deleteBtn.setAttribute("class", "delete");
-  deleteBtn.setAttribute("id", newFridgeItem.id);
+//   editBtn.setAttribute("class", newFridgeItem.id);
+//   editBtn.setAttribute("id", "edit-"+myFridge.length);
+//   deleteBtn.setAttribute("class", newFridgeItem.id);
+//   deleteBtn.setAttribute("id", "delete");
   pEl.setAttribute("id", newFridgeItem.id);
+  pEl.setAttribute("title", "Click to Delete Item");
 
-  editBtn.innerHTML = "edit";
-  deleteBtn.innerHTML= "delete";
+//   editBtn.innerHTML = "edit";
+//   deleteBtn.innerHTML= "delete";
 
 
   var itemText = document.createTextNode(newFridgeItem.item);
@@ -108,8 +109,8 @@ function addFridgeElement(newFridgeItem){
   pEl.appendChild(amountEl);
   pEl.appendChild(unitEl);
   pEl.appendChild(dateEl);
-  pEl.appendChild(editBtn);
-  pEl.appendChild(deleteBtn);
+//   pEl.appendChild(editBtn);
+//   pEl.appendChild(deleteBtn);
 
   //Add fridgeItem paragraph element to list
   containerEl.appendChild(pEl);
@@ -138,7 +139,24 @@ function addFridgeItem(event){
     myFridge.push(newFridgeItem);
     addFridgeElement(newFridgeItem);
     
+    console.log("New Array: ");
+    for (i = 0; i < myFridge.length; i++){
+       console.log(myFridge[i]);
+    }
+    
+
     closeModal();
+}
+
+function deleteItem(event){
+    var itemElement = event.target;
+    var iEid = itemElement.id;
+       for (var i = 0; i < myFridge.length; i++) {
+         if (myFridge[i].id === iEid) {
+           itemElement.remove();
+           myFridge.splice(i, 1);
+         }
+       }
 }
 
 //Initialize app
@@ -147,6 +165,7 @@ function init () {
     get('clear-button').onclick = clearModal;
     get('save-button').onclick = addFridgeItem;
     get('cancel-button').onclick = closeModal;
+    get('display-content').onclick = deleteItem;
 
 }
 
