@@ -1,6 +1,5 @@
 
 var myFridge = [];
- var today = new Date();
 
 //Item constructor function
 function FridgeItem (id, item, amount, unit, date){
@@ -15,8 +14,6 @@ function get(element){
     return document.getElementById(element);
 }
 
-
-
 //Application functions
 function openModal(){
     var modal = get('modal-dialog');
@@ -27,78 +24,108 @@ function openModal(){
 }
 
 function closeModal(){
-    var item = get('edit-item-text');
-    var amount = get('edit-amount-text');
-    var unit = get('units');
-    var date = get('edit-exp-date');
     var modal = get('modal-dialog');
     var backdrop = get('modal-backdrop');
 
-    //Clear text
-    item.value = '';
-    amount.value = '';
+    clearModal();
 
     //Hide modal and backdrop
     modal.classList.remove('visible');
     backdrop.classList.remove('visible');
 }
 
+//Resets input values in modal
 function clearModal(){
-        var item = get('edit-item-text');
+    var item = get('edit-item-text');
     var amount = get('edit-amount-text');
-    var unit = get('units');
+    var unit = get('edit-unit-text');
     var date = get('edit-exp-date-text');
 
     //Clear text
     item.value = '';
     amount.value = '';
-    unit.value = '';
-    date.value = '';
+    unit.value = 'oz';
+    date.value = null;
 }
 
-function dateDue(){
-   
-    for(var i = 0; i < myFridge.length; i++){
-        if(myFridge[i].date <= today.getDate()+7){
-            myFridge[i].style.backgroundColor = "red";
-        }
+//Checks to see if item date is within 7 days of expiration; highlights conditionally
+function dateDue() {
+    var msPerDay = 24 * 60 * 60 * 1000;
+
+  for (var i = 0; i < myFridge.length; i++) {
+         var itemDate = new Date(myFridge[i].date);
+         var todayDate = new Date();
+         var iPvalue = itemDate.valueOf();
+         var tPvalue = todayDate.valueOf();
+         
+
+         console.log((iPvalue-tPvalue)/msPerDay);
+         console.log("iPv: "+iPvalue+"\ttpV: "+tPvalue);
+
+    if (((iPvalue - tPvalue)/msPerDay) <= 7) {
+       
+      document.getElementById("fridgeItem-"+i).style.backgroundColor = "cyan";
     }
+  }
 }
 
-function createFridgeItemElement(newItem){
-    var FridgeItemText = document.createTextNode(
-        newItem.item + '\t' + newItem.amount + ' ' + newItem.unit + '\t' + newItem.date 
-    );
-    return FridgeItemText;
-}
-
-//Create new fridgeItem element and adds it to the DOM
+//Create new FridgeItem element and adds it to the DOM
 function addFridgeElement(newFridgeItem){
-  var containerEl = document.getElementById('display-content');
-  var itemEl = document.createElement('p');
-  var textEl = document.createTextNode(newFridgeItem.name);
+  var containerEl = get('display-content');
+  var itemEl = document.createElement('span');
+  var amountEl = document.createElement('span');
+  var unitEl = document.createElement('span');
+  var dateEl = document.createElement('span');
+  var editBtn = document.createElement('button');
+  var deleteBtn = document.createElement('button');
+  var pEl = document.createElement('p');
 
-  //Set attributes for FridgeItem
-  itemEl.setAttribute(id, newFridgeItem.id);
-  itemEl.setAttribute(item, newFridgeItem.item);
-  itemEl.setAttribute(amount, newFridgeItem.amount);
-  itemEl.setAttribute(unit, newFridgeItem.unit);
-  itemEl.setAttribute(date, newFridgeItem.date);
+  itemEl.setAttribute("class", "item");
+  amountEl.setAttribute("class", "amount");
+  unitEl.setAttribute("class", "unit");
+  dateEl.setAttribute("class", "date");
+  editBtn.setAttribute("class", "edit");
+  editBtn.setAttribute("id", newFridgeItem.id);
+  deleteBtn.setAttribute("class", "delete");
+  deleteBtn.setAttribute("id", newFridgeItem.id);
+  pEl.setAttribute("id", newFridgeItem.id);
 
+  editBtn.innerHTML = "edit";
+  deleteBtn.innerHTML= "delete";
+
+
+  var itemText = document.createTextNode(newFridgeItem.item);
+  var amountText = document.createTextNode(newFridgeItem.amount);
+  var unitText = document.createTextNode(newFridgeItem.unit);
+  var dateText = document.createTextNode(newFridgeItem.date);
+  
   //Add text to FridgeItem element
-  itemEl.appendChild(textEl);
-  //Add fridgeItem element to list
-  containerEl.appendChild(itemEl);
+  itemEl.appendChild(itemText);
+  amountEl.appendChild(amountText);
+  unitEl.appendChild(unitText);
+  dateEl.appendChild(dateText);
+  pEl.appendChild(itemEl);
+  pEl.appendChild(amountEl);
+  pEl.appendChild(unitEl);
+  pEl.appendChild(dateEl);
+  pEl.appendChild(editBtn);
+  pEl.appendChild(deleteBtn);
+
+  //Add fridgeItem paragraph element to list
+  containerEl.appendChild(pEl);
+
+  dateDue();
 }
 
 //Click handler to add new fridgeItem
 function addFridgeItem(event){
-    var inputItem = document.getElementById("edit-item-text");
-    var inputAmount = document.getElementById("edit-amount-text");
-    var inputUnit = document.getElementById("edit-unit-text");
-    var inputDate = document.getElementById("edit-exp-date-text");
+    var inputItem = document.getElementById("edit-item-text").value;
+    var inputAmount = document.getElementById("edit-amount-text").value;
+    var inputUnit = document.getElementById("edit-unit-text").value;
+    var inputDate = document.getElementById("edit-exp-date-text").value;
 
     var id = "fridgeItem-" + myFridge.length;
+    id = id.toString();
 
     var newFridgeItem = new FridgeItem(
       id,
@@ -109,30 +136,18 @@ function addFridgeItem(event){
     );
 
     myFridge.push(newFridgeItem);
-
     addFridgeElement(newFridgeItem);
-
-    dateDue();
     
     closeModal();
 }
 
-function displayFridgeContents(){
-    for (var i = 0; i < myFridge.length; i++){
-        var items = new FridgeItem(myFridge[i].item, myFridge[i].amount, myFridge[i].unit, myFridge[i].date);
-        myFridge.push(items);
-    }
-    dateDue();
-}
-
 //Initialize app
 function init () {
-    document.getElementById('add-button').onclick = openModal;
-    document.getElementById('clear-button').onclick = clearModal;
-    document.getElementById('save-button').onclick = addFridgeItem;
-    document.getElementById('cancel-button').onclick = closeModal;
+    get('add-button').onclick = openModal;
+    get('clear-button').onclick = clearModal;
+    get('save-button').onclick = addFridgeItem;
+    get('cancel-button').onclick = closeModal;
 
-    displayFridgeContents();
 }
 
 init();

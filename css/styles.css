@@ -29,7 +29,7 @@ header .header-menu{
 }
 
 button{
-    margin: 3% 1%;
+    margin: 0%;
     background-color: cornflowerblue;
 }
 
@@ -44,6 +44,27 @@ main{
 
 main #display-content{
     padding: 2% 0 0 5%;
+}
+
+#display-content > p{
+    margin: 1%;
+    padding: .5%;
+    width: 90%;
+}
+
+.date {
+    padding: 0% 10%;
+}
+
+.unit {
+    padding: 0% 10% 0% 1%;
+}
+.item {
+    padding: 0% 10% 0% 5%;
+}
+
+.edit{
+    margin-right: 3%;
 }
 
 #modal-backdrop{
@@ -85,5 +106,6 @@ main #display-content{
 
 footer{
     flex: 1;
-    margin: 2%;
+    color:gray;
+    margin: auto;
 }
